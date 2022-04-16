@@ -3,17 +3,19 @@ import React, { useMemo } from 'react';
 
 import { FilteredItem } from '../domain/search-list-input/search-list-input.dto';
 import {
+  focusedItemSelectedEvent,
   inputFocusedEvent,
-  itemFocusedEvent,
   itemSelectedEvent,
   listBlurredEvent,
+  nextItemFocusedEvent,
+  prevItemFocusedEvent,
   searchTextEnteredEvent,
 } from '../domain/search-list-input/search-list-input.events';
 import searchListInputMachine from '../domain/search-list-input/search-list-input.machine';
 
 import Input from './components/Input';
 import ResultList from './components/ResultList';
-import { KEY_CODE_DOWN, KEY_CODE_UP } from './config/constants';
+import { ENTER_KEY, KEY_CODE_DOWN, KEY_CODE_UP } from './config/constants';
 
 import styles from './SearchListInput.module.scss';
 
@@ -30,19 +32,19 @@ const SearchListInputComp: React.FC = () => {
   const onListBlurred = () => publish(listBlurredEvent);
   const onInputChange = (value: string) => publish(searchTextEnteredEvent(value));
   const onInputKeyPress = (key: string) => {
-    const currentIndex = focusedItemIndex;
-    const lastIndex = filteredResults.length - 1;
-
     switch (key) {
       case KEY_CODE_DOWN: {
-        const nextItemIndex = currentIndex === undefined || currentIndex === lastIndex ? 0 : currentIndex + 1;
-        publish(itemFocusedEvent(nextItemIndex));
+        publish(nextItemFocusedEvent);
         break;
       }
 
       case KEY_CODE_UP: {
-        const prevItemIndex = !currentIndex ? lastIndex : currentIndex - 1;
-        publish(itemFocusedEvent(prevItemIndex));
+        publish(prevItemFocusedEvent);
+        break;
+      }
+
+      case ENTER_KEY: {
+        publish(focusedItemSelectedEvent);
         break;
       }
 

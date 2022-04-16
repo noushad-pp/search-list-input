@@ -4,12 +4,14 @@ import countries from '../data/countries.json';
 
 import {
   clearSearchText,
+  focusedItemSelected,
   hideResults,
   inputBlurred,
   inputFocused,
-  itemFocused,
   itemSelected,
   listBlurred,
+  nextItemFocused,
+  prevItemFocused,
   searchTextEntered,
   showResults,
 } from './search-list-input.actions';
@@ -67,16 +69,22 @@ export const countrySelectorMachineConfig: MachineConfig<
         [ActionTypes.SEARCH_TEXT_ENTERED]: {
           actions: ['searchTextEntered'],
         },
-        [ActionTypes.ITEM_FOCUSED]: {
-          actions: ['itemFocused'],
+        [ActionTypes.NEXT_ITEM_FOCUSED]: {
+          actions: ['nextItemFocused'],
         },
-        [ActionTypes.LIST_BLURRED]: {
-          target: 'searching',
-          actions: ['hideResults'],
+        [ActionTypes.PREV_ITEM_FOCUSED]: {
+          actions: ['prevItemFocused'],
+        },
+        [ActionTypes.FOCUSED_ITEM_SELECTED]: {
+          actions: ['focusedItemSelected'],
         },
         [ActionTypes.ITEM_SELECTED]: {
           target: 'itemSelected',
           actions: ['itemSelected'],
+        },
+        [ActionTypes.LIST_BLURRED]: {
+          target: 'searching',
+          actions: ['hideResults'],
         },
       },
     },
@@ -96,13 +104,15 @@ export const countrySelectorMachineOptions = {
   actions: {
     inputBlurred,
     inputFocused,
-    itemFocused,
-    itemSelected,
-    listBlurred,
+    searchTextEntered,
+    clearSearchText,
     hideResults,
     showResults,
-    clearSearchText,
-    searchTextEntered,
+    nextItemFocused,
+    prevItemFocused,
+    focusedItemSelected,
+    itemSelected,
+    listBlurred,
   },
 };
 

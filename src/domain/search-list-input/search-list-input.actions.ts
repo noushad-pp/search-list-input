@@ -6,12 +6,14 @@ import countries from '../data/countries.json';
 import { SearchItem, SearchListInputContext } from './search-list-input.dto';
 import {
   ClearSearchTextEvent,
+  FocusedItemSelectedEvent,
   HideResultsEvent,
   InputBlurredEvent,
   InputFocusedEvent,
-  ItemFocusedEvent,
   ItemSelectedEvent,
   ListBlurredEvent,
+  NextItemFocusedEvent,
+  PrevItemFocusedEvent,
   SearchTextEnteredEvent,
   ShowResultsEvent,
 } from './search-list-input.events';
@@ -63,8 +65,30 @@ export const clearSearchText = assign<SearchListInputContext, ClearSearchTextEve
   filteredResults: (_) => getFilteredItems(''),
 });
 
-export const itemFocused = assign<SearchListInputContext, ItemFocusedEvent>({
-  focusedItemIndex: (_, { index }) => index,
+export const focusedItemSelected = assign<SearchListInputContext, FocusedItemSelectedEvent>({
+  selectedItem: ({ focusedItemIndex, filteredResults }) => {
+    return focusedItemIndex ? filteredResults[focusedItemIndex] : undefined;
+  },
+});
+
+export const nextItemFocused = assign<SearchListInputContext, NextItemFocusedEvent>({
+  focusedItemIndex: ({ focusedItemIndex, filteredResults }) => {
+    const lastIndex = filteredResults.length - 1;
+    const nextItemIndex = focusedItemIndex === undefined || focusedItemIndex === lastIndex ? 0 : focusedItemIndex + 1;
+
+    // eslint-disable-next-line no-console
+    console.log({ nextItemIndex, focusedItemIndex });
+    return nextItemIndex;
+  },
+});
+
+export const prevItemFocused = assign<SearchListInputContext, PrevItemFocusedEvent>({
+  focusedItemIndex: ({ focusedItemIndex, filteredResults }) => {
+    const lastIndex = filteredResults.length - 1;
+    const prevItemIndex = !focusedItemIndex ? lastIndex : focusedItemIndex - 1;
+
+    return prevItemIndex;
+  },
 });
 
 export const listBlurred = assign<SearchListInputContext, ListBlurredEvent>({

@@ -32,11 +32,20 @@ export const hideResultsEvent: HideResultsEvent = {
   type: ActionTypes.HIDE_RESULTS,
 };
 
-export type ItemFocusedEvent = { type: ActionTypes.ITEM_FOCUSED; index?: number };
-export const itemFocusedEvent = (index?: number): ItemFocusedEvent => ({
-  type: ActionTypes.ITEM_FOCUSED,
-  index,
-});
+export type FocusedItemSelectedEvent = { type: ActionTypes.FOCUSED_ITEM_SELECTED };
+export const focusedItemSelectedEvent: FocusedItemSelectedEvent = {
+  type: ActionTypes.FOCUSED_ITEM_SELECTED,
+};
+
+export type NextItemFocusedEvent = { type: ActionTypes.NEXT_ITEM_FOCUSED };
+export const nextItemFocusedEvent: NextItemFocusedEvent = {
+  type: ActionTypes.NEXT_ITEM_FOCUSED,
+};
+
+export type PrevItemFocusedEvent = { type: ActionTypes.PREV_ITEM_FOCUSED };
+export const prevItemFocusedEvent: PrevItemFocusedEvent = {
+  type: ActionTypes.PREV_ITEM_FOCUSED,
+};
 
 export type ListBlurredEvent = { type: ActionTypes.LIST_BLURRED; index?: number };
 export const listBlurredEvent: ListBlurredEvent = {
