@@ -39,7 +39,7 @@ export const countrySelectorMachineConfig: MachineConfig<
       on: {
         [ActionTypes.INPUT_FOCUSED]: {
           target: 'searching',
-          actions: ['showResults'],
+          actions: ['clearSearchText', 'showResults'],
         },
       },
     },
@@ -69,6 +69,9 @@ export const countrySelectorMachineConfig: MachineConfig<
     },
     resultList: {
       on: {
+        [ActionTypes.INPUT_FOCUSED]: {
+          actions: ['clearSearchText'],
+        },
         [ActionTypes.INPUT_BLURRED]: {
           actions: ['hideResults'],
         },
@@ -98,7 +101,7 @@ export const countrySelectorMachineConfig: MachineConfig<
       on: {
         [ActionTypes.INPUT_FOCUSED]: {
           target: 'resultList',
-          actions: ['clearSearchText', 'showResults'],
+          actions: ['showResults'],
         },
       },
     },
