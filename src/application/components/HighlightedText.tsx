@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import React, { HTMLAttributes } from 'react';
 
-import styles from './HiglightedText.module.scss';
+import styles from './HighlightedText.module.scss';
 
 type Props = HTMLAttributes<HTMLSpanElement> & {
   text: string;

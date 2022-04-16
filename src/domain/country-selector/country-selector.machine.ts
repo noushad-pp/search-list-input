@@ -2,13 +2,13 @@ import { createMachine, MachineConfig, StateSchema } from 'xstate';
 
 import countries from '../data/countries.json';
 
-import { inputBlurred, inputFocused, itemFocused, searchTextEntered } from './country-selector.actions';
+import { inputBlurred, inputFocused, itemFocused, itemSelected, searchTextEntered } from './country-selector.actions';
 import { ActionTypes } from './country-selector.constants';
 import { CountrySelectorContext, CountrySelectorStateSchema } from './country-selector.dto';
 
 const defaultContext: CountrySelectorContext = {
   searchText: '',
-  focusedCountry: undefined,
+  focusedCountryIndex: undefined,
   selectedCountry: undefined,
   showCountryList: false,
   filteredCountryList: countries,
@@ -21,7 +21,6 @@ export const countrySelectorMachineConfig: MachineConfig<
 > = {
   id: 'countrySelectorMachine',
   context: defaultContext,
-  strict: true,
   initial: 'initial' as any,
   states: {
     initial: {
@@ -36,14 +35,33 @@ export const countrySelectorMachineConfig: MachineConfig<
         [ActionTypes.INPUT_FOCUSED]: {
           actions: ['inputFocused'],
         },
-        [ActionTypes.INPUT_BLURRED]: {
-          actions: ['inputBlurred'],
+        [ActionTypes.SEARCH_TEXT_ENTERED]: {
+          target: 'listShown',
+          actions: ['searchTextEntered'],
         },
+      },
+    },
+    listShown: {
+      on: {
         [ActionTypes.SEARCH_TEXT_ENTERED]: {
           actions: ['searchTextEntered'],
         },
+        [ActionTypes.INPUT_BLURRED]: {
+          actions: ['inputBlurred'],
+        },
         [ActionTypes.ITEM_FOCUSED]: {
           actions: ['itemFocused'],
+        },
+        [ActionTypes.ITEM_SELECTED]: {
+          target: 'countrySelected',
+          actions: ['itemSelected'],
+        },
+      },
+    },
+    countrySelected: {
+      on: {
+        [ActionTypes.INPUT_FOCUSED]: {
+          target: 'listShown',
         },
       },
     },
@@ -53,9 +71,10 @@ export const countrySelectorMachineConfig: MachineConfig<
 export const countrySelectorMachineOptions = {
   guards: {},
   actions: {
-    inputFocused,
     inputBlurred,
+    inputFocused,
     itemFocused,
+    itemSelected,
     searchTextEntered,
   },
 };

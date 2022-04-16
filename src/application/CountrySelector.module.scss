@@ -1,6 +1,4 @@
-$border-radius: 6px;
-$spacing-xs: 6px;
-$spacing-sm: 12px;
+@import "./config/vars";
 
 .container {
   display: flex;
@@ -46,21 +44,5 @@ $spacing-sm: 12px;
     background: #fff;
     border-radius: $border-radius;
     box-shadow: 1px 1px 10px 1px #999;
-
-    .countryListItem {
-      display: flex;
-      flex: 1;
-      justify-content: space-between;
-      padding: $spacing-sm;
-      cursor: pointer;
-
-      &:hover {
-        background: #f7f7f7;
-      }
-
-      &:not(:last-child) {
-        border-bottom: 1px solid #eee;
-      }
-    }
   }
 }

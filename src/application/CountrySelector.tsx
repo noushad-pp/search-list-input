@@ -1,33 +1,62 @@
 import { useMachine } from '@xstate/react';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
-  inputBlurredEvent,
+  // inputBlurredEvent,
   inputFocusedEvent,
   itemFocusedEvent,
+  itemSelectedEvent,
   searchTextEnteredEvent,
 } from '../domain/country-selector/country-selector.events';
 import countrySelectorMachine from '../domain/country-selector/country-selector.machine';
 
-import HighlightedText from './components/HighlightedText';
+import CountryListItem from './components/CountryListItem';
+import { KEY_CODE_DOWN, KEY_CODE_UP } from './config/constants';
 
 import styles from './CountrySelector.module.scss';
 
 const CountrySelectorComp: React.FC = () => {
   const [
     {
-      context: { searchText, focusedCountry, showCountryList, filteredCountryList },
+      context: { searchText, focusedCountryIndex, showCountryList, filteredCountryList, selectedCountry },
     },
     publish,
   ] = useMachine(countrySelectorMachine, { devTools: true });
 
+  const focusedCountry = useMemo(() => {
+    return focusedCountryIndex ? filteredCountryList[focusedCountryIndex] : undefined;
+  }, [focusedCountryIndex, filteredCountryList]);
+
   const onInputFocus = () => publish(inputFocusedEvent);
-  const onInputBlur = () => publish(inputBlurredEvent);
+  const onInputBlur = () => ({});
   // TODO: make debounced change
   const onInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
     publish(searchTextEnteredEvent(value));
 
-  const text = focusedCountry?.name || searchText;
+  const onInputKeyPress = ({ key }: React.KeyboardEvent) => {
+    const currentIndex = focusedCountryIndex;
+    const lastIndex = filteredCountryList.length - 1;
+
+    switch (key) {
+      case KEY_CODE_DOWN: {
+        const nextItemIndex = currentIndex === undefined || currentIndex === lastIndex ? 0 : currentIndex + 1;
+        publish(itemFocusedEvent(nextItemIndex));
+        break;
+      }
+
+      case KEY_CODE_UP: {
+        const prevItemIndex = !currentIndex ? lastIndex : currentIndex - 1;
+        publish(itemFocusedEvent(prevItemIndex));
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+  };
+
+  const text = focusedCountry?.name || selectedCountry?.name || searchText;
 
   return (
     <div className={styles.container}>
@@ -43,26 +72,16 @@ const CountrySelectorComp: React.FC = () => {
           onFocus={onInputFocus}
           onBlur={onInputBlur}
           onChange={onInputChange}
+          onKeyDown={onInputKeyPress}
         />
         {showCountryList && filteredCountryList.length > 0 && (
           <div className={styles.countryList}>
-            {filteredCountryList.map((country) => {
-              const onFocused = () => publish(itemFocusedEvent(country));
-              const onBlurred = () => publish(itemFocusedEvent());
+            {filteredCountryList.map((country, index) => {
+              const isFocused = index === focusedCountryIndex;
+              const onSelected = () => publish(itemSelectedEvent(country));
 
               return (
-                <div
-                  key={country.code}
-                  className={styles.countryListItem}
-                  tabIndex={0}
-                  onFocus={onFocused}
-                  onBlur={onBlurred}
-                  onMouseEnter={onFocused}
-                  onMouseLeave={onBlurred}
-                >
-                  <HighlightedText text={country.name} indexesToHighlight={country.nameMatchIndexes} />
-                  <HighlightedText text={country.code} indexesToHighlight={country.codeMatchIndexes} />
-                </div>
+                <CountryListItem key={country.code} isFocused={isFocused} onSelected={onSelected} country={country} />
               );
             })}
           </div>

@@ -1,0 +1,31 @@
+@import "../config/vars";
+
+.countryListItem {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  padding: $spacing-sm;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-bottom-color: #c8d2db;
+
+  &.isFocused,
+  &:hover,
+  &:active,
+  &:focus {
+    background: #f2f9ff;
+    border-color: #c8d2db;
+    outline: none;
+  }
+
+  &:last-child {
+    border-bottom-color: transparent;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  &:first-child {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+  }
+}

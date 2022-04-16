@@ -10,13 +10,13 @@ export interface FilteredCountry extends Country {
 
 export interface CountrySelectorContext {
   searchText: string;
-  focusedCountry?: Country;
+  focusedCountryIndex?: number;
   selectedCountry?: Country;
   showCountryList: boolean;
   filteredCountryList: FilteredCountry[];
 }
 
-type CountrySelectorStates = 'initial' | 'searching' | 'countryHighlighted' | 'countrySelected';
+type CountrySelectorStates = 'initial' | 'searching' | 'listShown' | 'countrySelected';
 export type CountrySelectorStateSchema = {
   [k in CountrySelectorStates]: Record<string, any>;
 };

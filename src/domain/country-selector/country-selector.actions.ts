@@ -8,6 +8,7 @@ import {
   InputBlurredEvent,
   InputFocusedEvent,
   ItemFocusedEvent,
+  ItemSelectedEvent,
   SearchTextEnteredEvent,
 } from './country-selector.events';
 
@@ -17,12 +18,14 @@ export const inputFocused = assign<CountrySelectorContext, InputFocusedEvent>({
 
 export const inputBlurred = assign<CountrySelectorContext, InputBlurredEvent>({
   showCountryList: () => false,
-  focusedCountry: () => undefined,
+  focusedCountryIndex: () => undefined,
 });
 
 export const searchTextEntered = assign<CountrySelectorContext, SearchTextEnteredEvent>({
   searchText: (_, { search }) => search,
   showCountryList: () => true,
+  focusedCountryIndex: () => undefined,
+  selectedCountry: () => undefined,
   filteredCountryList: (_, { search }) => {
     if (!search) {
       return countries;
@@ -41,5 +44,13 @@ export const searchTextEntered = assign<CountrySelectorContext, SearchTextEntere
 });
 
 export const itemFocused = assign<CountrySelectorContext, ItemFocusedEvent>({
-  focusedCountry: (_, { country }) => country,
+  focusedCountryIndex: (_, { index }) => index,
+});
+
+export const itemSelected = assign<CountrySelectorContext, ItemSelectedEvent>({
+  searchText: (_, { country }) => country.name,
+  focusedCountryIndex: () => undefined,
+  filteredCountryList: () => countries,
+  showCountryList: () => false,
+  selectedCountry: (_, { country }) => country,
 });

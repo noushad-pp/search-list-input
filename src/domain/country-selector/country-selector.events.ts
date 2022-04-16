@@ -17,8 +17,14 @@ export const searchTextEnteredEvent = (search: string): SearchTextEnteredEvent =
   search,
 });
 
-export type ItemFocusedEvent = { type: ActionTypes.ITEM_FOCUSED; country?: FilteredCountry };
-export const itemFocusedEvent = (country?: FilteredCountry): ItemFocusedEvent => ({
+export type ItemFocusedEvent = { type: ActionTypes.ITEM_FOCUSED; index?: number };
+export const itemFocusedEvent = (index?: number): ItemFocusedEvent => ({
   type: ActionTypes.ITEM_FOCUSED,
+  index,
+});
+
+export type ItemSelectedEvent = { type: ActionTypes.ITEM_SELECTED; country: FilteredCountry };
+export const itemSelectedEvent = (country: FilteredCountry): ItemSelectedEvent => ({
+  type: ActionTypes.ITEM_SELECTED,
   country,
 });
