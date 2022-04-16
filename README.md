@@ -69,7 +69,7 @@ search-list-input
 
 ### Data source
 
-The list of countries (name and ISO code) is copied from [this repo](https://gist.github.com/keeguon/2310008). The data is stored as json inside the repository.
+The list of countries (name, ISO Standard 3166-1 code and flag unicodes) is copied from [this repo](https://github.com/mledoze/countries). The data is stored as json inside the repository.
 
 ### Fussy search
 
@@ -103,4 +103,5 @@ This will spin up a dev server at [http://localhost:3000](http://localhost:3000)
     -   I didn't use any UI design libraries. I defined some spacing and other variables in sass var file but would also move some colors etc to vars file. Also, should be able to accept user values from a config file just like the data source
 -   Deliver-ability: Package it and make it an installable library where other users can plug and play in to their forms/code with extendability in terms of UI
 -   More features: Preview data filled on mouse hover (Major challenge is input field has to be focused during both keyboard and mouse focusings and since its a scrollable window, the position of the currently selected item has to be made into the current viewport and having a hover focusable item will complicate this procedure)
--   Aesthetics: Find a data source with flag info too.
+-   ~~Aesthetics: Find a data source with flag info too.~~ Flag info data source added but has a lot of bloated information and the searching performance might have degraded. Normalise/prune data json.
+-   Compatibility: Add css processors that auto-generate to multi browser compatible css. Currently, only has normal css.

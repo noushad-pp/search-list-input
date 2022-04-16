@@ -24,7 +24,7 @@ const getFilteredItems = (search: string) => {
   }
 
   const results = fuzzySearch<SearchItem>(search, countries, {
-    keys: ['name', 'code'],
+    keys: ['name.common', 'cca2'],
   });
 
   return results.map((result) => ({
@@ -95,7 +95,7 @@ export const listBlurred = assign<SearchListInputContext, ListBlurredEvent>({
 });
 
 export const itemSelected = assign<SearchListInputContext, ItemSelectedEvent>({
-  searchText: (_, { item }) => item.name,
+  searchText: (_, { item }) => item.name.common,
   focusedItemIndex: () => undefined,
   filteredResults: () => countries,
   selectedItem: (_, { item }) => item,

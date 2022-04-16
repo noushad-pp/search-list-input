@@ -1,6 +1,9 @@
 export type SearchItem = {
-  code: string;
-  name: string;
+  name: {
+    common: string;
+  };
+  cca2: string;
+  flag: string;
 };
 
 export interface FilteredItem extends SearchItem {

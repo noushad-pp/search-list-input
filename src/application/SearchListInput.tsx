@@ -54,7 +54,7 @@ const SearchListInputComp: React.FC = () => {
     }
   };
 
-  const text = focusedItem?.name || selectedItem?.name || searchText;
+  const text = focusedItem?.name.common || selectedItem?.name.common || searchText;
 
   return (
     <div className={styles.container}>

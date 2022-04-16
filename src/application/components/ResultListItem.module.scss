@@ -4,6 +4,7 @@
   display: flex;
   flex: 1;
   justify-content: space-between;
+  align-items: center;
   padding: $spacing-sm;
   cursor: pointer;
   border: 1px solid transparent;
@@ -27,5 +28,19 @@
   &:first-child {
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
+  }
+
+  .nameAndFlag {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    .flag {
+      margin-right: $spacing-xs;
+    }
+  }
+
+  .codeName {
+    min-width: fit-content; // do not break code name
   }
 }

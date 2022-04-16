@@ -24,7 +24,7 @@ const ResultListComp: React.FC<Props> = ({ focusedItemIndex, results, onItemSele
         const isFocused = index === focusedItemIndex;
         const onSelected = () => onItemSelected(country);
 
-        return <ResultListItem key={country.code} isFocused={isFocused} onSelected={onSelected} results={country} />;
+        return <ResultListItem key={country.cca2} isFocused={isFocused} onSelected={onSelected} results={country} />;
       })}
     </div>
   );

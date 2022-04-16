@@ -32,8 +32,13 @@ const ResultListItemComp: React.FC<Props> = ({ results, isFocused, onSelected })
       className={cn(styles.resultListItem, { [styles.isFocused]: isFocused })}
       onClick={onItemSelected}
     >
-      <HighlightedText text={results.name} indexesToHighlight={results.nameMatchIndexes} />
-      <HighlightedText text={results.code} indexesToHighlight={results.codeMatchIndexes} />
+      <div className={styles.nameAndFlag}>
+        <span className={styles.flag}>{results.flag}</span>
+        <HighlightedText text={results.name.common} indexesToHighlight={results.nameMatchIndexes} />
+      </div>
+      <div className={styles.codeName}>
+        <HighlightedText text={results.cca2.toUpperCase()} indexesToHighlight={results.codeMatchIndexes} />
+      </div>
     </div>
   );
 };
