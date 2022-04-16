@@ -59,7 +59,7 @@ const SearchListInputComp: React.FC = () => {
   return (
     <div className={styles.container}>
       <label id="item-selector-label" htmlFor="item-selector-input">
-        Search country
+        Select country
       </label>
       <div className={styles.inputContainer}>
         <Input search={text} onChange={onInputChange} onFocus={onInputFocus} onKeyDown={onInputKeyPress} />

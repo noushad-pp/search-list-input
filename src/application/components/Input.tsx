@@ -27,7 +27,7 @@ const InputComp: React.FC<Props> = ({ search = '', onChange, onBlur, onFocus, on
     <input
       id="item-selector-input"
       type="search"
-      placeholder="Search here.."
+      placeholder="Type here.."
       value={text}
       onFocus={onFocus}
       onBlur={onBlur}

@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   font-size: 16px;
+  padding: $spacing-sm;
   color: #333;
 
   label {
@@ -16,7 +17,9 @@
 .inputContainer {
   display: flex;
   flex-direction: row;
-  min-width: 400px;
+  flex: 1;
+  min-width: 375px;
+  max-width: calc(100% - #{$spacing-sm});
   height: 32px;
   border-radius: $border-radius;
   border: 1px solid #444;
