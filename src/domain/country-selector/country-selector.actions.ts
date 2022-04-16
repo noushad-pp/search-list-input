@@ -4,7 +4,12 @@ import { assign } from 'xstate';
 import countries from '../data/countries.json';
 
 import { Country, CountrySelectorContext } from './country-selector.dto';
-import { InputBlurredEvent, InputFocusedEvent, SearchTextEnteredEvent } from './country-selector.events';
+import {
+  InputBlurredEvent,
+  InputFocusedEvent,
+  ItemFocusedEvent,
+  SearchTextEnteredEvent,
+} from './country-selector.events';
 
 export const inputFocused = assign<CountrySelectorContext, InputFocusedEvent>({
   showCountryList: () => true,
@@ -12,10 +17,10 @@ export const inputFocused = assign<CountrySelectorContext, InputFocusedEvent>({
 
 export const inputBlurred = assign<CountrySelectorContext, InputBlurredEvent>({
   showCountryList: () => false,
+  focusedCountry: () => undefined,
 });
 
 export const searchTextEntered = assign<CountrySelectorContext, SearchTextEnteredEvent>({
-  displayText: (_context, { search }) => search,
   searchText: (_, { search }) => search,
   showCountryList: () => true,
   filteredCountryList: (_, { search }) => {
@@ -33,4 +38,8 @@ export const searchTextEntered = assign<CountrySelectorContext, SearchTextEntere
       codeMatchIndexes: result[1] ? result[1].indexes : [],
     }));
   },
+});
+
+export const itemFocused = assign<CountrySelectorContext, ItemFocusedEvent>({
+  focusedCountry: (_, { country }) => country,
 });

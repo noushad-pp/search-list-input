@@ -4,6 +4,7 @@ import React from 'react';
 import {
   inputBlurredEvent,
   inputFocusedEvent,
+  itemFocusedEvent,
   searchTextEnteredEvent,
 } from '../domain/country-selector/country-selector.events';
 import countrySelectorMachine from '../domain/country-selector/country-selector.machine';
@@ -15,7 +16,7 @@ import styles from './CountrySelector.module.scss';
 const CountrySelectorComp: React.FC = () => {
   const [
     {
-      context: { displayText, showCountryList, filteredCountryList },
+      context: { searchText, focusedCountry, showCountryList, filteredCountryList },
     },
     publish,
   ] = useMachine(countrySelectorMachine, { devTools: true });
@@ -26,8 +27,7 @@ const CountrySelectorComp: React.FC = () => {
   const onInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
     publish(searchTextEnteredEvent(value));
 
-  // eslint-disable-next-line no-console
-  console.log({ filteredCountryList });
+  const text = focusedCountry?.name || searchText;
 
   return (
     <div className={styles.container}>
@@ -38,7 +38,8 @@ const CountrySelectorComp: React.FC = () => {
         <input
           id="country-selector-input"
           type="search"
-          value={displayText}
+          placeholder="Search here.."
+          value={text}
           onFocus={onInputFocus}
           onBlur={onInputBlur}
           onChange={onInputChange}
@@ -46,8 +47,19 @@ const CountrySelectorComp: React.FC = () => {
         {showCountryList && filteredCountryList.length > 0 && (
           <div className={styles.countryList}>
             {filteredCountryList.map((country) => {
+              const onFocused = () => publish(itemFocusedEvent(country));
+              const onBlurred = () => publish(itemFocusedEvent());
+
               return (
-                <div key={country.code} className={styles.countryListItem}>
+                <div
+                  key={country.code}
+                  className={styles.countryListItem}
+                  tabIndex={0}
+                  onFocus={onFocused}
+                  onBlur={onBlurred}
+                  onMouseEnter={onFocused}
+                  onMouseLeave={onBlurred}
+                >
                   <HighlightedText text={country.name} indexesToHighlight={country.nameMatchIndexes} />
                   <HighlightedText text={country.code} indexesToHighlight={country.codeMatchIndexes} />
                 </div>

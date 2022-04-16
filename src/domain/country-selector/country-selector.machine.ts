@@ -2,13 +2,12 @@ import { createMachine, MachineConfig, StateSchema } from 'xstate';
 
 import countries from '../data/countries.json';
 
-import { inputBlurred, inputFocused, searchTextEntered } from './country-selector.actions';
+import { inputBlurred, inputFocused, itemFocused, searchTextEntered } from './country-selector.actions';
 import { ActionTypes } from './country-selector.constants';
 import { CountrySelectorContext, CountrySelectorStateSchema } from './country-selector.dto';
 
 const defaultContext: CountrySelectorContext = {
   searchText: '',
-  displayText: '',
   focusedCountry: undefined,
   selectedCountry: undefined,
   showCountryList: false,
@@ -43,6 +42,9 @@ export const countrySelectorMachineConfig: MachineConfig<
         [ActionTypes.SEARCH_TEXT_ENTERED]: {
           actions: ['searchTextEntered'],
         },
+        [ActionTypes.ITEM_FOCUSED]: {
+          actions: ['itemFocused'],
+        },
       },
     },
   },
@@ -53,6 +55,7 @@ export const countrySelectorMachineOptions = {
   actions: {
     inputFocused,
     inputBlurred,
+    itemFocused,
     searchTextEntered,
   },
 };

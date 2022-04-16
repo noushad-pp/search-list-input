@@ -10,7 +10,6 @@ export interface FilteredCountry extends Country {
 
 export interface CountrySelectorContext {
   searchText: string;
-  displayText: string;
   focusedCountry?: Country;
   selectedCountry?: Country;
   showCountryList: boolean;
