@@ -25,7 +25,7 @@ const InputComp: React.FC<Props> = ({ search = '', onChange, onBlur, onFocus, on
 
   return (
     <input
-      id="country-selector-input"
+      id="item-selector-input"
       type="search"
       placeholder="Search here.."
       value={text}

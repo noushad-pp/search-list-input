@@ -2,7 +2,7 @@ import { inspect } from '@xstate/inspect';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import CountrySelector from './application/CountrySelector';
+import SearchListInput from './application/SearchListInput';
 import reportWebVitals from './reportWebVitals';
 
 import './index.scss';
@@ -19,7 +19,7 @@ const root = createRoot(container!);
 
 root.render(
   <React.StrictMode>
-    <CountrySelector />
+    <SearchListInput />
   </React.StrictMode>
 );
 

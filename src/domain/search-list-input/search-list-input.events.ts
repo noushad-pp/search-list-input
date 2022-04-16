@@ -1,5 +1,5 @@
-import { ActionTypes } from './country-selector.constants';
-import { FilteredCountry } from './country-selector.dto';
+import { ActionTypes } from './search-list-input.constants';
+import { FilteredItem } from './search-list-input.dto';
 
 export type InputFocusedEvent = { type: ActionTypes.INPUT_FOCUSED };
 export const inputFocusedEvent: InputFocusedEvent = {
@@ -17,6 +17,16 @@ export const searchTextEnteredEvent = (search: string): SearchTextEnteredEvent =
   search,
 });
 
+export type ShowResultsEvent = { type: ActionTypes.SHOW_RESULTS };
+export const showResultsEvent: ShowResultsEvent = {
+  type: ActionTypes.SHOW_RESULTS,
+};
+
+export type HideResultsEvent = { type: ActionTypes.HIDE_RESULTS };
+export const hideResultsEvent: HideResultsEvent = {
+  type: ActionTypes.HIDE_RESULTS,
+};
+
 export type ItemFocusedEvent = { type: ActionTypes.ITEM_FOCUSED; index?: number };
 export const itemFocusedEvent = (index?: number): ItemFocusedEvent => ({
   type: ActionTypes.ITEM_FOCUSED,
@@ -28,8 +38,8 @@ export const listBlurredEvent: ListBlurredEvent = {
   type: ActionTypes.LIST_BLURRED,
 };
 
-export type ItemSelectedEvent = { type: ActionTypes.ITEM_SELECTED; country: FilteredCountry };
-export const itemSelectedEvent = (country: FilteredCountry): ItemSelectedEvent => ({
+export type ItemSelectedEvent<T = FilteredItem> = { type: ActionTypes.ITEM_SELECTED; item: T };
+export const itemSelectedEvent = (item: FilteredItem): ItemSelectedEvent => ({
   type: ActionTypes.ITEM_SELECTED,
-  country,
+  item,
 });

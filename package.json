@@ -1,19 +1,20 @@
 {
-  "name": "country-selector",
+  "name": "search-list-input",
   "version": "0.1.0",
-  "description": "country selector",
-  "homepage": "https://noushad-pp.github.io/country-selector",
+  "description": "Search list input  - input component to search and select from a list of items",
+  "homepage": "https://noushad-pp.github.io/search-list-input",
   "private": true,
   "author": "Noushad Puthen Peedikayil",
   "license": "MIT",
   "keywords": [
     "typescript",
     "react",
-    "country-selector"
+    "search-list-inpu",
+    "state-machine"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/noushad-pp/country-selector"
+    "url": "https://github.com/noushad-pp/search-list-input"
   },
   "dependencies": {
     "@xstate/inspect": "^0.6.5",

@@ -3,30 +3,32 @@ import { createMachine, MachineConfig, StateSchema } from 'xstate';
 import countries from '../data/countries.json';
 
 import {
+  hideResults,
   inputBlurred,
   inputFocused,
   itemFocused,
   itemSelected,
   listBlurred,
   searchTextEntered,
-} from './country-selector.actions';
-import { ActionTypes } from './country-selector.constants';
-import { CountrySelectorContext, CountrySelectorStateSchema } from './country-selector.dto';
+  showResults,
+} from './search-list-input.actions';
+import { ActionTypes } from './search-list-input.constants';
+import { SearchListInputContext, SearchListInputStateSchema } from './search-list-input.dto';
 
-const defaultContext: CountrySelectorContext = {
+const defaultContext: SearchListInputContext = {
   searchText: '',
-  focusedCountryIndex: undefined,
-  selectedCountry: undefined,
-  showCountryList: false,
-  filteredCountryList: countries,
+  showResults: false,
+  focusedItemIndex: undefined,
+  selectedItem: undefined,
+  filteredResults: countries,
 };
 
 export const countrySelectorMachineConfig: MachineConfig<
-  CountrySelectorContext,
-  StateSchema<CountrySelectorStateSchema>,
+  SearchListInputContext,
+  StateSchema<SearchListInputStateSchema>,
   any
 > = {
-  id: 'countrySelectorMachine',
+  id: 'searchListInputMachine',
   context: defaultContext,
   initial: 'initial' as any,
   states: {
@@ -34,26 +36,29 @@ export const countrySelectorMachineConfig: MachineConfig<
       on: {
         [ActionTypes.INPUT_FOCUSED]: {
           target: 'searching',
-          actions: ['inputFocused'],
+          actions: ['showResults'],
         },
       },
     },
     searching: {
       on: {
         [ActionTypes.INPUT_FOCUSED]: {
-          actions: ['inputFocused'],
+          actions: ['showResults'],
         },
+        // [ActionTypes.LIST_BLURRED]: {
+        //   actions: ['hideResults'],
+        // },
         [ActionTypes.SEARCH_TEXT_ENTERED]: {
-          target: 'listShown',
-          actions: ['searchTextEntered'],
+          target: 'resultList',
+          actions: ['searchTextEntered', 'showResults'],
         },
         [ActionTypes.ITEM_SELECTED]: {
-          target: 'countrySelected',
-          actions: ['itemSelected'],
+          target: 'itemSelected',
+          actions: ['itemSelected', 'hideResults'],
         },
       },
     },
-    listShown: {
+    resultList: {
       on: {
         [ActionTypes.INPUT_BLURRED]: {
           actions: ['inputBlurred'],
@@ -66,19 +71,19 @@ export const countrySelectorMachineConfig: MachineConfig<
         },
         [ActionTypes.LIST_BLURRED]: {
           target: 'searching',
-          actions: ['listBlurred'],
+          actions: ['hideResults'],
         },
         [ActionTypes.ITEM_SELECTED]: {
-          target: 'countrySelected',
+          target: 'itemSelected',
           actions: ['itemSelected'],
         },
       },
     },
-    countrySelected: {
+    itemSelected: {
       on: {
         [ActionTypes.INPUT_FOCUSED]: {
-          target: 'searching',
-          actions: ['inputFocused'],
+          target: 'resultList',
+          actions: ['showResults'],
         },
       },
     },
@@ -93,13 +98,15 @@ export const countrySelectorMachineOptions = {
     itemFocused,
     itemSelected,
     listBlurred,
+    hideResults,
+    showResults,
     searchTextEntered,
   },
 };
 
-export const countrySelectorMachine = createMachine<CountrySelectorContext>(
+export const searchListInputMachine = createMachine<SearchListInputContext>(
   countrySelectorMachineConfig,
   countrySelectorMachineOptions
 );
 
-export default countrySelectorMachine;
+export default searchListInputMachine;
