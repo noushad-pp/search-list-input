@@ -1,6 +1,7 @@
 .container {
   display: inline-flex;
   flex-wrap: wrap;
+  white-space: break-spaces;
 }
 
 .highLightedText {

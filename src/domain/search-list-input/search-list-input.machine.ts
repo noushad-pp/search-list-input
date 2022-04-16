@@ -48,12 +48,18 @@ export const countrySelectorMachineConfig: MachineConfig<
         [ActionTypes.INPUT_FOCUSED]: {
           actions: ['showResults'],
         },
-        // [ActionTypes.LIST_BLURRED]: {
-        //   actions: ['hideResults'],
-        // },
         [ActionTypes.SEARCH_TEXT_ENTERED]: {
           target: 'resultList',
           actions: ['searchTextEntered', 'showResults'],
+        },
+        [ActionTypes.NEXT_ITEM_FOCUSED]: {
+          actions: ['nextItemFocused'],
+        },
+        [ActionTypes.PREV_ITEM_FOCUSED]: {
+          actions: ['prevItemFocused'],
+        },
+        [ActionTypes.FOCUSED_ITEM_SELECTED]: {
+          actions: ['focusedItemSelected', 'hideResults'],
         },
         [ActionTypes.ITEM_SELECTED]: {
           target: 'itemSelected',
@@ -64,10 +70,10 @@ export const countrySelectorMachineConfig: MachineConfig<
     resultList: {
       on: {
         [ActionTypes.INPUT_BLURRED]: {
-          actions: ['inputBlurred'],
+          actions: ['hideResults'],
         },
         [ActionTypes.SEARCH_TEXT_ENTERED]: {
-          actions: ['searchTextEntered'],
+          actions: ['searchTextEntered', 'showResults'],
         },
         [ActionTypes.NEXT_ITEM_FOCUSED]: {
           actions: ['nextItemFocused'],
@@ -76,11 +82,11 @@ export const countrySelectorMachineConfig: MachineConfig<
           actions: ['prevItemFocused'],
         },
         [ActionTypes.FOCUSED_ITEM_SELECTED]: {
-          actions: ['focusedItemSelected'],
+          actions: ['focusedItemSelected', 'hideResults'],
         },
         [ActionTypes.ITEM_SELECTED]: {
           target: 'itemSelected',
-          actions: ['itemSelected'],
+          actions: ['itemSelected', 'hideResults'],
         },
         [ActionTypes.LIST_BLURRED]: {
           target: 'searching',

@@ -64,7 +64,12 @@ const SearchListInputComp: React.FC = () => {
       <div className={styles.inputContainer}>
         <Input search={text} onChange={onInputChange} onFocus={onInputFocus} onKeyDown={onInputKeyPress} />
         {showResults && filteredResults.length > 0 && (
-          <ResultList results={filteredResults} onItemSelected={onItemSelected} onBlur={onListBlurred} />
+          <ResultList
+            results={filteredResults}
+            onItemSelected={onItemSelected}
+            onBlur={onListBlurred}
+            focusedItemIndex={focusedItemIndex}
+          />
         )}
       </div>
     </div>

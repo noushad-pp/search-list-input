@@ -16,7 +16,7 @@ const HighlightedTextComp: React.FC<Props> = ({ indexesToHighlight = [], text, .
 
         return (
           <span key={index} className={cn({ [styles.highLightedText]: shouldHighlight })}>
-            {char}
+            {`${char}`}
           </span>
         );
       })}

@@ -67,8 +67,9 @@ export const clearSearchText = assign<SearchListInputContext, ClearSearchTextEve
 
 export const focusedItemSelected = assign<SearchListInputContext, FocusedItemSelectedEvent>({
   selectedItem: ({ focusedItemIndex, filteredResults }) => {
-    return focusedItemIndex ? filteredResults[focusedItemIndex] : undefined;
+    return focusedItemIndex ? filteredResults[focusedItemIndex] : filteredResults[0];
   },
+  focusedItemIndex: () => undefined,
 });
 
 export const nextItemFocused = assign<SearchListInputContext, NextItemFocusedEvent>({
@@ -76,8 +77,6 @@ export const nextItemFocused = assign<SearchListInputContext, NextItemFocusedEve
     const lastIndex = filteredResults.length - 1;
     const nextItemIndex = focusedItemIndex === undefined || focusedItemIndex === lastIndex ? 0 : focusedItemIndex + 1;
 
-    // eslint-disable-next-line no-console
-    console.log({ nextItemIndex, focusedItemIndex });
     return nextItemIndex;
   },
 });
