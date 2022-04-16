@@ -29,8 +29,8 @@ export const searchTextEntered = assign<CountrySelectorContext, SearchTextEntere
 
     return results.map((result) => ({
       ...result.obj,
-      nameMatchIndexes: result[0] ? [result[0].indexes] : [],
-      codeMatchIndexes: result[1] ? [result[1].indexes] : [],
+      nameMatchIndexes: result[0] ? result[0].indexes : [],
+      codeMatchIndexes: result[1] ? result[1].indexes : [],
     }));
   },
 });

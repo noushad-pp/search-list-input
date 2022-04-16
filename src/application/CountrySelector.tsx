@@ -8,6 +8,8 @@ import {
 } from '../domain/country-selector/country-selector.events';
 import countrySelectorMachine from '../domain/country-selector/country-selector.machine';
 
+import HighlightedText from './components/HighlightedText';
+
 import styles from './CountrySelector.module.scss';
 
 const CountrySelectorComp: React.FC = () => {
@@ -24,6 +26,9 @@ const CountrySelectorComp: React.FC = () => {
   const onInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
     publish(searchTextEnteredEvent(value));
 
+  // eslint-disable-next-line no-console
+  console.log({ filteredCountryList });
+
   return (
     <div className={styles.container}>
       <label id="country-selector-label" htmlFor="country-selector-input">
@@ -38,13 +43,13 @@ const CountrySelectorComp: React.FC = () => {
           onBlur={onInputBlur}
           onChange={onInputChange}
         />
-        {showCountryList && (
+        {showCountryList && filteredCountryList.length > 0 && (
           <div className={styles.countryList}>
             {filteredCountryList.map((country) => {
               return (
                 <div key={country.code} className={styles.countryListItem}>
-                  <span className={styles.countryListItemName}>{country.name}</span>
-                  <span className={styles.countryListItemCode}>{country.code}</span>
+                  <HighlightedText text={country.name} indexesToHighlight={country.nameMatchIndexes} />
+                  <HighlightedText text={country.code} indexesToHighlight={country.codeMatchIndexes} />
                 </div>
               );
             })}
