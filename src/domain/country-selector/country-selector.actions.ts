@@ -9,11 +9,30 @@ import {
   InputFocusedEvent,
   ItemFocusedEvent,
   ItemSelectedEvent,
+  ListBlurredEvent,
   SearchTextEnteredEvent,
 } from './country-selector.events';
 
+const getFilteredCountries = (search: string) => {
+  if (!search) {
+    return countries;
+  }
+
+  const results = fuzzySearch<Country>(search, countries, {
+    keys: ['name', 'code'],
+  });
+
+  return results.map((result) => ({
+    ...result.obj,
+    nameMatchIndexes: result[0] ? result[0].indexes : [],
+    codeMatchIndexes: result[1] ? result[1].indexes : [],
+  }));
+};
+
 export const inputFocused = assign<CountrySelectorContext, InputFocusedEvent>({
   showCountryList: () => true,
+  focusedCountryIndex: () => undefined,
+  filteredCountryList: ({ searchText }) => getFilteredCountries(searchText),
 });
 
 export const inputBlurred = assign<CountrySelectorContext, InputBlurredEvent>({
@@ -26,25 +45,16 @@ export const searchTextEntered = assign<CountrySelectorContext, SearchTextEntere
   showCountryList: () => true,
   focusedCountryIndex: () => undefined,
   selectedCountry: () => undefined,
-  filteredCountryList: (_, { search }) => {
-    if (!search) {
-      return countries;
-    }
-
-    const results = fuzzySearch<Country>(search, countries, {
-      keys: ['name', 'code'],
-    });
-
-    return results.map((result) => ({
-      ...result.obj,
-      nameMatchIndexes: result[0] ? result[0].indexes : [],
-      codeMatchIndexes: result[1] ? result[1].indexes : [],
-    }));
-  },
+  filteredCountryList: (_, { search }) => getFilteredCountries(search),
 });
 
 export const itemFocused = assign<CountrySelectorContext, ItemFocusedEvent>({
   focusedCountryIndex: (_, { index }) => index,
+});
+
+export const listBlurred = assign<CountrySelectorContext, ListBlurredEvent>({
+  focusedCountryIndex: () => undefined,
+  showCountryList: () => false,
 });
 
 export const itemSelected = assign<CountrySelectorContext, ItemSelectedEvent>({

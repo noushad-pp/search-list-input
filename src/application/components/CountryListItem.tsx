@@ -21,7 +21,10 @@ const CountryListItemComp: React.FC<Props> = ({ country, isFocused, onSelected }
     }
   }, [isFocused]);
 
-  const onCountrySelected = () => onSelected();
+  const onCountrySelected = (e: React.MouseEvent) => {
+    e.stopPropagation(); // prevent bubbling up and triggering the list blur event
+    onSelected();
+  };
 
   return (
     <div

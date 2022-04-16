@@ -2,7 +2,14 @@ import { createMachine, MachineConfig, StateSchema } from 'xstate';
 
 import countries from '../data/countries.json';
 
-import { inputBlurred, inputFocused, itemFocused, itemSelected, searchTextEntered } from './country-selector.actions';
+import {
+  inputBlurred,
+  inputFocused,
+  itemFocused,
+  itemSelected,
+  listBlurred,
+  searchTextEntered,
+} from './country-selector.actions';
 import { ActionTypes } from './country-selector.constants';
 import { CountrySelectorContext, CountrySelectorStateSchema } from './country-selector.dto';
 
@@ -27,6 +34,7 @@ export const countrySelectorMachineConfig: MachineConfig<
       on: {
         [ActionTypes.INPUT_FOCUSED]: {
           target: 'searching',
+          actions: ['inputFocused'],
         },
       },
     },
@@ -39,18 +47,26 @@ export const countrySelectorMachineConfig: MachineConfig<
           target: 'listShown',
           actions: ['searchTextEntered'],
         },
+        [ActionTypes.ITEM_SELECTED]: {
+          target: 'countrySelected',
+          actions: ['itemSelected'],
+        },
       },
     },
     listShown: {
       on: {
-        [ActionTypes.SEARCH_TEXT_ENTERED]: {
-          actions: ['searchTextEntered'],
-        },
         [ActionTypes.INPUT_BLURRED]: {
           actions: ['inputBlurred'],
         },
+        [ActionTypes.SEARCH_TEXT_ENTERED]: {
+          actions: ['searchTextEntered'],
+        },
         [ActionTypes.ITEM_FOCUSED]: {
           actions: ['itemFocused'],
+        },
+        [ActionTypes.LIST_BLURRED]: {
+          target: 'searching',
+          actions: ['listBlurred'],
         },
         [ActionTypes.ITEM_SELECTED]: {
           target: 'countrySelected',
@@ -61,7 +77,8 @@ export const countrySelectorMachineConfig: MachineConfig<
     countrySelected: {
       on: {
         [ActionTypes.INPUT_FOCUSED]: {
-          target: 'listShown',
+          target: 'searching',
+          actions: ['inputFocused'],
         },
       },
     },
@@ -75,6 +92,7 @@ export const countrySelectorMachineOptions = {
     inputFocused,
     itemFocused,
     itemSelected,
+    listBlurred,
     searchTextEntered,
   },
 };

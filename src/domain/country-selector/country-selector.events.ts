@@ -23,6 +23,11 @@ export const itemFocusedEvent = (index?: number): ItemFocusedEvent => ({
   index,
 });
 
+export type ListBlurredEvent = { type: ActionTypes.LIST_BLURRED; index?: number };
+export const listBlurredEvent: ListBlurredEvent = {
+  type: ActionTypes.LIST_BLURRED,
+};
+
 export type ItemSelectedEvent = { type: ActionTypes.ITEM_SELECTED; country: FilteredCountry };
 export const itemSelectedEvent = (country: FilteredCountry): ItemSelectedEvent => ({
   type: ActionTypes.ITEM_SELECTED,

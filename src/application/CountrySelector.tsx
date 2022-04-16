@@ -1,39 +1,35 @@
 import { useMachine } from '@xstate/react';
 import React, { useMemo } from 'react';
 
+import { FilteredCountry } from '../domain/country-selector/country-selector.dto';
 import {
-  // inputBlurredEvent,
   inputFocusedEvent,
   itemFocusedEvent,
   itemSelectedEvent,
+  listBlurredEvent,
   searchTextEnteredEvent,
 } from '../domain/country-selector/country-selector.events';
 import countrySelectorMachine from '../domain/country-selector/country-selector.machine';
 
-import CountryListItem from './components/CountryListItem';
+import CountryList from './components/CountryList';
+import Input from './components/Input';
 import { KEY_CODE_DOWN, KEY_CODE_UP } from './config/constants';
 
 import styles from './CountrySelector.module.scss';
 
 const CountrySelectorComp: React.FC = () => {
-  const [
-    {
-      context: { searchText, focusedCountryIndex, showCountryList, filteredCountryList, selectedCountry },
-    },
-    publish,
-  ] = useMachine(countrySelectorMachine, { devTools: true });
+  const [{ context }, publish] = useMachine(countrySelectorMachine, { devTools: true });
+  const { searchText, focusedCountryIndex, showCountryList, filteredCountryList, selectedCountry } = context;
 
   const focusedCountry = useMemo(() => {
     return focusedCountryIndex ? filteredCountryList[focusedCountryIndex] : undefined;
   }, [focusedCountryIndex, filteredCountryList]);
 
+  const onCountrySelected = (country: FilteredCountry) => publish(itemSelectedEvent(country));
   const onInputFocus = () => publish(inputFocusedEvent);
-  const onInputBlur = () => ({});
-  // TODO: make debounced change
-  const onInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
-    publish(searchTextEnteredEvent(value));
-
-  const onInputKeyPress = ({ key }: React.KeyboardEvent) => {
+  const onListBlurred = () => publish(listBlurredEvent);
+  const onInputChange = (value: string) => publish(searchTextEnteredEvent(value));
+  const onInputKeyPress = (key: string) => {
     const currentIndex = focusedCountryIndex;
     const lastIndex = filteredCountryList.length - 1;
 
@@ -64,27 +60,9 @@ const CountrySelectorComp: React.FC = () => {
         Search country
       </label>
       <div className={styles.inputContainer}>
-        <input
-          id="country-selector-input"
-          type="search"
-          placeholder="Search here.."
-          value={text}
-          onFocus={onInputFocus}
-          onBlur={onInputBlur}
-          onChange={onInputChange}
-          onKeyDown={onInputKeyPress}
-        />
+        <Input search={text} onChange={onInputChange} onFocus={onInputFocus} onKeyDown={onInputKeyPress} />
         {showCountryList && filteredCountryList.length > 0 && (
-          <div className={styles.countryList}>
-            {filteredCountryList.map((country, index) => {
-              const isFocused = index === focusedCountryIndex;
-              const onSelected = () => publish(itemSelectedEvent(country));
-
-              return (
-                <CountryListItem key={country.code} isFocused={isFocused} onSelected={onSelected} country={country} />
-              );
-            })}
-          </div>
+          <CountryList countries={filteredCountryList} onCountrySelected={onCountrySelected} onBlur={onListBlurred} />
         )}
       </div>
     </div>
