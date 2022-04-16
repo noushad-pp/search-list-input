@@ -8,6 +8,7 @@ export interface CountrySelectorContext {
   displayText: string;
   focusedCountry?: Country;
   selectedCountry?: Country;
+  showCountryList: boolean;
   filteredCountryList: Country[];
 }
 

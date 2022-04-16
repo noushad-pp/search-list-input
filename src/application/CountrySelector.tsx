@@ -1,7 +1,11 @@
 import { useMachine } from '@xstate/react';
 import React from 'react';
 
-import { inputFocusedEvent, searchTextEnteredEvent } from '../domain/country-selector/country-selector.events';
+import {
+  inputBlurredEvent,
+  inputFocusedEvent,
+  searchTextEnteredEvent,
+} from '../domain/country-selector/country-selector.events';
 import countrySelectorMachine from '../domain/country-selector/country-selector.machine';
 
 import styles from './CountrySelector.module.scss';
@@ -9,12 +13,13 @@ import styles from './CountrySelector.module.scss';
 const CountrySelectorComp: React.FC = () => {
   const [
     {
-      context: { displayText, filteredCountryList },
+      context: { displayText, showCountryList, filteredCountryList },
     },
     publish,
   ] = useMachine(countrySelectorMachine, { devTools: true });
 
   const onInputFocus = () => publish(inputFocusedEvent);
+  const onInputBlur = () => publish(inputBlurredEvent);
   // TODO: make debounced change
   const onInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
     publish(searchTextEnteredEvent(value));
@@ -30,9 +35,10 @@ const CountrySelectorComp: React.FC = () => {
           type="search"
           value={displayText}
           onFocus={onInputFocus}
+          onBlur={onInputBlur}
           onChange={onInputChange}
         />
-        {filteredCountryList.length > 0 && (
+        {showCountryList && (
           <div className={styles.countryList}>
             {filteredCountryList.map((country) => {
               return (

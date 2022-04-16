@@ -45,14 +45,18 @@ $spacing-sm: 12px;
     z-index: 1;
     background: #fff;
     border-radius: $border-radius;
-    padding: 0 $spacing-sm;
     box-shadow: 1px 1px 10px 1px #999;
 
     .countryListItem {
       display: flex;
       flex: 1;
       justify-content: space-between;
-      padding: $spacing-sm 0;
+      padding: $spacing-sm;
+      cursor: pointer;
+
+      &:hover {
+        background: #f7f7f7;
+      }
 
       &:not(:last-child) {
         border-bottom: 1px solid #eee;
