@@ -3,6 +3,7 @@ import { createMachine, MachineConfig, StateSchema } from 'xstate';
 import countries from '../data/countries.json';
 
 import {
+  clearSearchText,
   hideResults,
   inputBlurred,
   inputFocused,
@@ -83,7 +84,7 @@ export const countrySelectorMachineConfig: MachineConfig<
       on: {
         [ActionTypes.INPUT_FOCUSED]: {
           target: 'resultList',
-          actions: ['showResults'],
+          actions: ['clearSearchText', 'showResults'],
         },
       },
     },
@@ -100,6 +101,7 @@ export const countrySelectorMachineOptions = {
     listBlurred,
     hideResults,
     showResults,
+    clearSearchText,
     searchTextEntered,
   },
 };

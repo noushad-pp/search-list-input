@@ -5,6 +5,7 @@ import countries from '../data/countries.json';
 
 import { SearchItem, SearchListInputContext } from './search-list-input.dto';
 import {
+  ClearSearchTextEvent,
   HideResultsEvent,
   InputBlurredEvent,
   InputFocusedEvent,
@@ -53,6 +54,13 @@ export const searchTextEntered = assign<SearchListInputContext, SearchTextEntere
   focusedItemIndex: () => undefined,
   selectedItem: () => undefined,
   filteredResults: (_, { search }) => getFilteredItems(search),
+});
+
+export const clearSearchText = assign<SearchListInputContext, ClearSearchTextEvent>({
+  searchText: () => '',
+  focusedItemIndex: () => undefined,
+  selectedItem: () => undefined,
+  filteredResults: (_) => getFilteredItems(''),
 });
 
 export const itemFocused = assign<SearchListInputContext, ItemFocusedEvent>({

@@ -17,6 +17,11 @@ export const searchTextEnteredEvent = (search: string): SearchTextEnteredEvent =
   search,
 });
 
+export type ClearSearchTextEvent = { type: ActionTypes.CLEAR_SEARCH_TEXT };
+export const clearSearchTextEvent: ClearSearchTextEvent = {
+  type: ActionTypes.CLEAR_SEARCH_TEXT,
+};
+
 export type ShowResultsEvent = { type: ActionTypes.SHOW_RESULTS };
 export const showResultsEvent: ShowResultsEvent = {
   type: ActionTypes.SHOW_RESULTS,
