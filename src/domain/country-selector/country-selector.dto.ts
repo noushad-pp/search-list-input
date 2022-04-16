@@ -3,13 +3,18 @@ export type Country = {
   name: string;
 };
 
+export interface FilteredCountry extends Country {
+  nameMatchIndexes?: number[];
+  codeMatchIndexes?: number[];
+}
+
 export interface CountrySelectorContext {
   searchText: string;
   displayText: string;
   focusedCountry?: Country;
   selectedCountry?: Country;
   showCountryList: boolean;
-  filteredCountryList: Country[];
+  filteredCountryList: FilteredCountry[];
 }
 
 type CountrySelectorStates = 'initial' | 'searching' | 'countryHighlighted' | 'countrySelected';
