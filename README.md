@@ -1,5 +1,7 @@
 # Search List Input
 
+[![Deploy React Application](https://github.com/noushad-pp/search-list-input/actions/workflows/deploy-to-gh-pages.yml/badge.svg?branch=main)](https://github.com/noushad-pp/search-list-input/actions/workflows/deploy-to-gh-pages.yml)
+
 Use case: An input component that can search and select an item from the list of provided data (in this a case a list of countries).
 
 ## [Demo](https://noushad-pp.github.io/search-list-input)
